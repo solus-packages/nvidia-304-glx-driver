@@ -49,9 +49,9 @@ def install():
         version = compat[lib]
         versionMajor = version.split(".")[0]
 
-        pisitools.dosym("/usr/lib/glx-provider/default/%s.%s" % (lib, version), "/usr/lib/glx-provider/nvidia/%s.so" % (lib))
-        pisitools.dosym("/usr/lib/glx-provider/default/%s.%s" % (lib, version), "/usr/lib/glx-provider/nvidia/%s.so.%s" % (lib, versionMajor))
-        pisitools.dosym("/usr/lib/glx-provider/default/%s.%s" % (lib, version), "/usr/lib/glx-provider/nvidia/%s.so.%s" % (lib, version))
+        pisitools.dosym("/usr/lib/glx-provider/default/%s.so.%s" % (lib, version), "/usr/lib/glx-provider/nvidia/%s.so" % (lib))
+        pisitools.dosym("/usr/lib/glx-provider/default/%s.so.%s" % (lib, version), "/usr/lib/glx-provider/nvidia/%s.so.%s" % (lib, versionMajor))
+        pisitools.dosym("/usr/lib/glx-provider/default/%s.so.%s" % (lib, version), "/usr/lib/glx-provider/nvidia/%s.so.%s" % (lib, version))
 
     # non-conflict libraries
     libs =  ["libnvidia-glcore", "libnvidia-cfg", "libnvidia-ml", "tls/libnvidia-tls", "libcuda", "libnvcuvid",
