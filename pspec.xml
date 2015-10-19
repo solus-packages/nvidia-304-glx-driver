@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<!DOCTYPE PISI SYSTEM "https://solus-project.com/standard/pisi-spec.dtd">
+<PISI>
+    <Source>
+        <Name>nvidia-304-glx-driver</Name>
+        <Homepage>https://nvidia.com</Homepage>
+        <Packager>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Packager>
+        <Summary>NVIDIA Binary Driver</Summary>
+        <Description>NVIDIA Binary Driver</Description>
+        <License>EULA</License>
+        <Archive sha1sum="a88ebff86a893aec5c5a7cbcc0cd9868b78d7d00" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.128/NVIDIA-Linux-x86_64-304.128-no-compat32.run</Archive>
+        <BuildDependencies>
+            
+            <Dependency type="pkgconfig">xorg-server</Dependency>
+            <Dependency type="pkgconfig">gtk+-3.0</Dependency>
+            <Dependency>kernel</Dependency>
+            <Dependency>kernel-modules</Dependency>
+            <Dependency>kernel-headers</Dependency>
+        </BuildDependencies>
+
+        <AdditionalFiles>
+            <AdditionalFile target="nv-drm.patch">nv-drm.patch</AdditionalFile>
+        </AdditionalFiles>
+    </Source>
+
+    <Package>
+        <Name>nvidia-304-glx-driver</Name>
+        <Files>
+            <Path fileType="executable">/usr/bin</Path>
+            <Path fileType="data">/usr/share/pixmaps</Path>
+            <Path fileType="data">/usr/share/applications</Path>
+            <Path fileType="library">/usr/lib/xorg/modules</Path>
+            <Path fileType="library">/lib64/modules</Path>
+            <Path fileType="library">/usr/lib/lib*.so*</Path>
+            <Path fileType="library">/usr/lib/glx-provider/nvidia</Path>
+            <Path fileType="library">/usr/lib/vdpau</Path>
+            <Path fileType="data">/etc/OpenCL</Path>
+            
+            <Path fileType="data">/etc/modprobe.d/nvidia.conf</Path>
+        </Files>
+        <Provides>
+            <COMAR script="package.py">System.Package</COMAR>
+        </Provides>
+        <RuntimeDependencies>
+            <Dependency>gl-driver-switch</Dependency>
+            <Dependency>kernel-modules</Dependency>
+        </RuntimeDependencies>
+        <Conflicts>
+            <!-- Only allow one nvidia provider at a time. Pretty logical //-->
+            <Package>nvidia-glx-driver</Package>
+        </Conflicts>
+    </Package>
+
+    <History>
+        <Update release="28">
+            <Date>10-19-2015</Date>
+            <Version>304.128</Version>
+            <Comment>Package bump</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+    </History>
+</PISI>
