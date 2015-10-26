@@ -23,6 +23,7 @@
 
         <AdditionalFiles>
             <AdditionalFile target="nv-drm.patch">nv-drm.patch</AdditionalFile>
+            <AdditionalFile permission="0755" target="nvidia_supported">nvidia_supported</AdditionalFile>
         </AdditionalFiles>
     </Source>
 
@@ -54,7 +55,24 @@
         </Conflicts>
     </Package>
 
+    <Package>
+        <Name>nvidia-304-glx-driver-modaliases</Name>
+        <Summary>modalias files for the nvidia-304-glx-driver</Summary>
+        <Description>modalias files for the nvidia-304-glx-driver</Description>
+        <Files>
+            <Path fileType="data">/usr/share/doflicky/modaliases</Path>
+        </Files>
+    </Package>
+
     <History>
+        <Update release="32">
+            <Date>10-26-2015</Date>
+            <Version>304.128</Version>
+            <Comment>Package bump</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="31">
             <Date>10-25-2015</Date>
             <Version>304.128</Version>
