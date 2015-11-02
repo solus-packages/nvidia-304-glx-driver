@@ -23,6 +23,7 @@
 
         <AdditionalFiles>
             <AdditionalFile target="nv-drm.patch">nv-drm.patch</AdditionalFile>
+            <AdditionalFile target="0001-Port-to-new-seq_-output-API.patch">0001-Port-to-new-seq_-output-API.patch</AdditionalFile>
             <AdditionalFile permission="0755" target="nvidia_supported">nvidia_supported</AdditionalFile>
         </AdditionalFiles>
     </Source>
@@ -65,6 +66,14 @@
     </Package>
 
     <History>
+        <Update release="35">
+            <Date>11-02-2015</Date>
+            <Version>304.128</Version>
+            <Comment>Rebuild for 4.3.0 kernel</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="34">
             <Date>10-31-2015</Date>
             <Version>304.128</Version>
