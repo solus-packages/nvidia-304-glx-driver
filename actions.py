@@ -9,13 +9,12 @@ import commands
 wdir = "NVIDIA-Linux-x86_64-%s-no-compat32" % get.srcVERSION()
 
 # Required... built in tandem with kernel update
-kversion = "4.3.0"
+kversion = "4.1.13"
 
 def setup():
     shelltools.system("sh NVIDIA-Linux-x86_64-%s-no-compat32.run --extract-only" % get.srcVERSION())
     shelltools.cd(wdir)
     shelltools.system("patch -p0 < ../nv-drm.patch")
-
 
 def build():
     shelltools.cd(wdir + "/kernel")
@@ -87,3 +86,8 @@ def install():
     with open("%s/usr/share/doflicky/modaliases/%s.modaliases" % (get.installDIR(), get.srcNAME()), "w") as outp:
         inp = commands.getoutput("../../nvidia_supported nvidia %s ../README.txt nvidia.ko" % get.srcNAME())
         outp.write(inp)
+
+    # Blacklist nouveau
+    pisitools.dodir("/etc/modprobe.d")
+    shelltools.echo("%s/etc/modprobe.d/nvidia.conf" % get.installDIR(),
+        "blacklist nouveau")

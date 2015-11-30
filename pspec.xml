@@ -50,11 +50,9 @@
             <Dependency>kernel-modules</Dependency>
         </RuntimeDependencies>
         <Conflicts>
+            
             <Package>nvidia-glx-driver</Package>
         </Conflicts>
-        <AdditionalFiles>
-            <AdditionalFile permission="0644" target="/etc/modprobe.d/nvidia.conf">nvidia.conf</AdditionalFile>
-        </AdditionalFiles>
     </Package>
 
     <Package>
