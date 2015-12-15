@@ -11,7 +11,7 @@
         <Summary>NVIDIA Binary Driver</Summary>
         <Description>NVIDIA Binary Driver</Description>
         <License>EULA</License>
-        <Archive sha1sum="aa5764ee971169969dbf465405b6f6908d6825cb" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.131/NVIDIA-Linux-x86_64-304.131-no-compat32.run</Archive>
+        <Archive sha1sum="72a3deaeda15ad8fef7c77b98f2370875cdb6a9e" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.131/NVIDIA-Linux-x86_64-304.131.run</Archive>
         <BuildDependencies>
             
             <Dependency type="pkgconfig">xorg-server</Dependency>
@@ -33,11 +33,11 @@
             <Path fileType="executable">/usr/bin</Path>
             <Path fileType="data">/usr/share/pixmaps</Path>
             <Path fileType="data">/usr/share/applications</Path>
-            <Path fileType="library">/usr/lib/xorg/modules</Path>
+            <Path fileType="library">/usr/lib64/xorg/modules</Path>
             <Path fileType="library">/lib64/modules</Path>
-            <Path fileType="library">/usr/lib/lib*.so*</Path>
-            <Path fileType="library">/usr/lib/glx-provider/nvidia</Path>
-            <Path fileType="library">/usr/lib/vdpau</Path>
+            <Path fileType="library">/usr/lib64/lib*.so*</Path>
+            <Path fileType="library">/usr/lib64/glx-provider/nvidia</Path>
+            <Path fileType="library">/usr/lib64/vdpau</Path>
             <Path fileType="data">/etc/OpenCL</Path>
             
             <Path fileType="data">/etc/modprobe.d/nvidia.conf</Path>
@@ -50,8 +50,30 @@
             <Dependency>kernel-modules</Dependency>
         </RuntimeDependencies>
         <Conflicts>
-            
             <Package>nvidia-glx-driver</Package>
+        </Conflicts>
+    </Package>
+
+    <Package>
+        <Name>nvidia-304-glx-driver-32bit</Name>
+        <Files>
+            <Path fileType="library">/usr/lib32/lib*.so*</Path>
+            <Path fileType="library">/usr/lib32/glx-provider/nvidia</Path>
+            <Path fileType="library">/usr/lib32/vdpau</Path>
+        </Files>
+        <Provides>
+            <COMAR script="multilib.py">System.Package</COMAR>
+        </Provides>
+        <RuntimeDependencies>
+            <Dependency>nvidia-304-glx-driver</Dependency>
+            <Dependency>mesalib-32bit</Dependency>
+            <Dependency>glibc-32bit</Dependency>
+            <Dependency>libgcc-32bit</Dependency>
+            <Dependency>libx11-32bit</Dependency>
+            <Dependency>libxext-32bit</Dependency>
+        </RuntimeDependencies>
+        <Conflicts>
+            <Package>nvidia-glx-driver-32bit</Package>
         </Conflicts>
     </Package>
 
@@ -65,6 +87,14 @@
     </Package>
 
     <History>
+        <Update release="47">
+            <Date>12-14-2015</Date>
+            <Version>304.131</Version>
+            <Comment>Enable multilib</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="46">
             <Date>12-10-2015</Date>
             <Version>304.131</Version>
