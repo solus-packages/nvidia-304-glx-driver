@@ -99,7 +99,3 @@ def install():
         inp = commands.getoutput("../../nvidia_supported nvidia %s ../README.txt nvidia.ko" % get.srcNAME())
         outp.write(inp)
 
-    # Blacklist nouveau
-    pisitools.dodir("/etc/modprobe.d")
-    shelltools.echo("%s/etc/modprobe.d/nvidia.conf" % get.installDIR(),
-        "blacklist nouveau")
