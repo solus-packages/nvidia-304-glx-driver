@@ -15,6 +15,8 @@ def setup():
     shelltools.system("sh NVIDIA-Linux-x86_64-%s.run --extract-only" % get.srcVERSION())
     shelltools.cd(wdir)
     shelltools.system("patch -p0 < ../nv-drm.patch")
+    shelltools.cd("kernel")
+    shelltools.system("patch -p1 < ../../disable-mtrr.patch")
 
 def build():
     shelltools.cd(wdir + "/kernel")
