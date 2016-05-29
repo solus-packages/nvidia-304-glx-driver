@@ -94,6 +94,14 @@
     </Package>
 
     <History>
+        <Update release="75">
+            <Date>05-29-2016</Date>
+            <Version>304.131</Version>
+            <Comment>Package bump</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="74">
             <Date>05-12-2016</Date>
             <Version>304.131</Version>
