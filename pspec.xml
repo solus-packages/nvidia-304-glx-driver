@@ -23,7 +23,8 @@
 
         <AdditionalFiles>
             <AdditionalFile target="nv-drm.patch">nv-drm.patch</AdditionalFile>
-            <AdditionalFile target="disable-mtrr.patch">disable-mtrr.patch</AdditionalFile>
+            <AdditionalFile target="0001-nv-lock-Port-to-Linux-4.7-API.patch">0001-nv-lock-Port-to-Linux-4.7-API.patch</AdditionalFile>
+            <AdditionalFile target="0002-nv-linux-Explicitly-disable-mtrr-use-deprecated.patch">0002-nv-linux-Explicitly-disable-mtrr-use-deprecated.patch</AdditionalFile>
             <AdditionalFile permission="0755" target="nvidia_supported">nvidia_supported</AdditionalFile>
         </AdditionalFiles>
     </Source>
@@ -94,6 +95,14 @@
     </Package>
 
     <History>
+        <Update release="85">
+            <Date>08-07-2016</Date>
+            <Version>304.131</Version>
+            <Comment>Package bump</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="84">
             <Date>08-04-2016</Date>
             <Version>304.131</Version>

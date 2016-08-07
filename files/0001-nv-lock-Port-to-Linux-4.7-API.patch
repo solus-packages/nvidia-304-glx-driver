@@ -1,0 +1,53 @@
+From 5e63b90ffe6a48fc1f9fc0d093be582a5e2d7f56 Mon Sep 17 00:00:00 2001
+From: Ikey Doherty <ikey@solus-project.com>
+Date: Sun, 7 Aug 2016 21:46:25 +0100
+Subject: [PATCH 1/2] nv-lock: Port to Linux 4.7 API
+
+Signed-off-by: Ikey Doherty <ikey@solus-project.com>
+---
+ kernel/nv-mlock.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/nv-mlock.c b/kernel/nv-mlock.c
+index 670ddfe..c0176cb 100644
+--- a/kernel/nv-mlock.c
++++ b/kernel/nv-mlock.c
+@@ -49,7 +49,7 @@ RM_STATUS NV_API_CALL nv_lock_user_pages(
+     }
+ 
+     down_read(&mm->mmap_sem);
+-    ret = get_user_pages(current, mm, (unsigned long)address,
++    ret = get_user_pages((unsigned long)address,
+             page_count, write, force, user_pages, NULL);
+     up_read(&mm->mmap_sem);
+     pinned = ret;
+@@ -62,7 +62,7 @@ RM_STATUS NV_API_CALL nv_lock_user_pages(
+     else if (pinned < page_count)
+     {
+         for (i = 0; i < pinned; i++)
+-            page_cache_release(user_pages[i]);
++            put_page(user_pages[i]);
+         os_free_mem(user_pages);
+         return RM_ERR_INVALID_ADDRESS;
+     }
+@@ -80,7 +80,7 @@ RM_STATUS NV_API_CALL nv_lock_user_pages(
+             {
+                 pci_unmap_page(dev, pte_array[j],
+                         PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+-                page_cache_release(user_pages[j]);
++                put_page(user_pages[j]);
+             }
+             os_free_mem(user_pages);
+             return RM_ERR_OPERATING_SYSTEM;
+@@ -114,7 +114,7 @@ RM_STATUS NV_API_CALL nv_unlock_user_pages(
+                 PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+         if (write)
+             set_page_dirty_lock(user_pages[i]);
+-        page_cache_release(user_pages[i]);
++        put_page(user_pages[i]);
+     }
+ 
+     os_free_mem(user_pages);
+-- 
+2.9.2
+

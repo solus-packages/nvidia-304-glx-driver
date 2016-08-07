@@ -1,0 +1,29 @@
+From 51912fbd397cf06d06c300d794c0781dff7fd418 Mon Sep 17 00:00:00 2001
+From: Ikey Doherty <ikey@solus-project.com>
+Date: Sun, 7 Aug 2016 21:47:55 +0100
+Subject: [PATCH 2/2] nv-linux: Explicitly disable mtrr use (deprecated)
+
+Signed-off-by: Ikey Doherty <ikey@solus-project.com>
+---
+ kernel/nv-linux.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/kernel/nv-linux.h b/kernel/nv-linux.h
+index cc3e7df..d8088a5 100644
+--- a/kernel/nv-linux.h
++++ b/kernel/nv-linux.h
+@@ -243,6 +243,11 @@ RM_STATUS nvos_forward_error_to_cray(struct pci_dev *, NvU32,
+  * NVIDIA graphics driver has no way of knowing and is unlikely
+  * to work correctly.
+  */
++
++#ifdef CONFIG_MTRR
++#undef CONFIG_MTRR
++#endif
++
+ #if defined(CONFIG_XEN) && !defined(CONFIG_PARAVIRT)
+ #include <asm/maddr.h>
+ #include <xen/interface/memory.h>
+-- 
+2.9.2
+
