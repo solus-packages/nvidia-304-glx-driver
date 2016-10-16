@@ -95,6 +95,14 @@
     </Package>
 
     <History>
+        <Update release="95">
+            <Date>10-16-2016</Date>
+            <Version>304.131</Version>
+            <Comment>Rebuild for current kernel</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="94">
             <Date>10-07-2016</Date>
             <Version>304.131</Version>
