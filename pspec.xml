@@ -11,7 +11,7 @@
         <Summary>NVIDIA Binary Driver</Summary>
         <Description>NVIDIA Binary Driver</Description>
         <License>EULA</License>
-        <Archive sha1sum="72a3deaeda15ad8fef7c77b98f2370875cdb6a9e" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.131/NVIDIA-Linux-x86_64-304.131.run</Archive>
+        <Archive sha1sum="226e2685a7501f328b271b3cad33c72df2e64d85" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.134/NVIDIA-Linux-x86_64-304.134.run</Archive>
         <BuildDependencies>
             <Dependency type="pkgconfig">xorg-server</Dependency>
             <Dependency type="pkgconfig">gtk+-3.0</Dependency>
@@ -22,8 +22,6 @@
 
         <AdditionalFiles>
             <AdditionalFile target="nv-drm.patch">nv-drm.patch</AdditionalFile>
-            <AdditionalFile target="0001-nv-lock-Port-to-Linux-4.7-API.patch">0001-nv-lock-Port-to-Linux-4.7-API.patch</AdditionalFile>
-            <AdditionalFile target="0002-nv-linux-Explicitly-disable-mtrr-use-deprecated.patch">0002-nv-linux-Explicitly-disable-mtrr-use-deprecated.patch</AdditionalFile>
             <AdditionalFile permission="0755" target="nvidia_supported">nvidia_supported</AdditionalFile>
         </AdditionalFiles>
     </Source>
@@ -100,6 +98,14 @@
     </Package>
 
     <History>
+        <Update release="111">
+            <Date>12-16-2016</Date>
+            <Version>304.134</Version>
+            <Comment>Update to 304.134</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="110">
             <Date>12-16-2016</Date>
             <Version>304.131</Version>
