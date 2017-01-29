@@ -9,13 +9,14 @@ import commands
 wdir = "NVIDIA-Linux-x86_64-%s" % get.srcVERSION()
 
 # Required... built in tandem with kernel update
-kversion = "4.8.15"
+kversion = "4.9.6"
 
 def setup():
     shelltools.system("sh NVIDIA-Linux-x86_64-%s.run --extract-only" % get.srcVERSION())
     shelltools.cd(wdir)
     shelltools.system("patch -p0 < ../nv-drm.patch")
     shelltools.system("patch -p1 < ../0002-nv-linux-Explicitly-disable-mtrr-use-deprecated.patch")
+    shelltools.system("patch -p1 < ../linux49.patch")
     shelltools.cd("kernel")
 
 def build():
