@@ -11,7 +11,7 @@
         <Summary>NVIDIA Binary Driver</Summary>
         <Description>NVIDIA Binary Driver</Description>
         <License>EULA</License>
-        <Archive sha1sum="226e2685a7501f328b271b3cad33c72df2e64d85" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.134/NVIDIA-Linux-x86_64-304.134.run</Archive>
+        <Archive sha1sum="83d07f0de1363510f2b1c3f647878a0141934dfa" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.135/NVIDIA-Linux-x86_64-304.135.run</Archive>
         <BuildDependencies>
             <Dependency type="pkgconfig">xorg-server</Dependency>
             <Dependency type="pkgconfig">gtk+-3.0</Dependency>
@@ -23,7 +23,6 @@
         <AdditionalFiles>
             <AdditionalFile target="nv-drm.patch">nv-drm.patch</AdditionalFile>
             <AdditionalFile target="linux49.patch">linux49.patch</AdditionalFile>
-            <AdditionalFile target="0002-nv-linux-Explicitly-disable-mtrr-use-deprecated.patch">0002-nv-linux-Explicitly-disable-mtrr-use-deprecated.patch</AdditionalFile>
             <AdditionalFile permission="0755" target="nvidia_supported">nvidia_supported</AdditionalFile>
         </AdditionalFiles>
     </Source>
@@ -51,7 +50,7 @@
         </Provides>
         <RuntimeDependencies>
             <Dependency>gl-driver-switch</Dependency>
-            <Dependency releaseFrom="183">kernel-modules</Dependency>
+            <Dependency releaseFrom="184">kernel-modules</Dependency>
             <Dependency>libva-vdpau-driver</Dependency>
         </RuntimeDependencies>
         <Conflicts>
@@ -100,6 +99,14 @@
     </Package>
 
     <History>
+        <Update release="119">
+            <Date>02-24-2017</Date>
+            <Version>304.135</Version>
+            <Comment>Update to 304.135</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="118">
             <Date>02-24-2017</Date>
             <Version>304.134</Version>
