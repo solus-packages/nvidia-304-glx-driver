@@ -17,17 +17,22 @@
             <Dependency type="pkgconfig">gtk+-3.0</Dependency>
             <Dependency>linux-lts</Dependency>
             <Dependency>linux-lts-headers</Dependency>
+            <Dependency>linux-current</Dependency>
+            <Dependency>linux-current-headers</Dependency>
         </BuildDependencies>
 
         <AdditionalFiles>
             <AdditionalFile target="nv-drm.patch">nv-drm.patch</AdditionalFile>
             <AdditionalFile target="linux49.patch">linux49.patch</AdditionalFile>
+            <AdditionalFile target="kernel_4.10.patch">kernel_4.10.patch</AdditionalFile>
+            <AdditionalFile target="kernel_4.11.patch">kernel_4.11.patch</AdditionalFile>
+            <AdditionalFile target="kernel_4.12.patch">kernel_4.12.patch</AdditionalFile>
             <AdditionalFile permission="0755" target="nvidia_supported">nvidia_supported</AdditionalFile>
         </AdditionalFiles>
     </Source>
 
     <Package>
-        <Name>nvidia-304-glx-driver</Name>
+        <Name>nvidia-304-glx-driver-common</Name>
         <BuildFlags>
             <Flag>noDebug</Flag>
         </BuildFlags>
@@ -36,7 +41,6 @@
             <Path fileType="data">/usr/share/pixmaps</Path>
             <Path fileType="data">/usr/share/applications</Path>
             <Path fileType="library">/usr/lib64/xorg/modules</Path>
-            <Path fileType="library" permanent="true">/lib64/modules</Path>
             <Path fileType="library">/usr/lib64/lib*.so*</Path>
             <Path fileType="library">/usr/lib64/glx-provider/nvidia</Path>
             <Path fileType="library">/usr/lib64/vdpau</Path>
@@ -49,16 +53,62 @@
         </Provides>
         <RuntimeDependencies>
             <Dependency>linux-driver-management</Dependency>
-            <Dependency releaseFrom="35">linux-lts</Dependency>
             <Dependency>libva-vdpau-driver</Dependency>
         </RuntimeDependencies>
         <Conflicts>
-            <Package>nvidia-glx-driver</Package>
+            <Package>nvidia-glx-driver-common</Package>
+            <Package>nvidia-340-glx-driver-common</Package>
         </Conflicts>
         <AdditionalFiles>
             <AdditionalFile permission="0644" target="/usr/lib/modprobe.d/nvidia.conf">nvidia.conf</AdditionalFile>
             <AdditionalFile permission="0644" target="/usr/lib/dracut/dracut.conf.d/nouveau.conf">dracut.conf</AdditionalFile>
         </AdditionalFiles>
+    </Package>
+
+    <Package>
+        <Name>nvidia-304-glx-driver</Name>
+        <Summary>NVIDIA 304 driver for the linux-lts kernel</Summary>
+        <Description>nvidia-304-glx-driver package for the linux-lts kernel</Description>
+        <BuildFlags>
+            <Flag>noDebug</Flag>
+        </BuildFlags>
+        <Files>
+            <Path fileType="library" permanent="true">/lib64/modules/*.lts</Path>
+        </Files>
+        <Provides>
+            <COMAR script="package.py">System.Package</COMAR>
+        </Provides>
+        <RuntimeDependencies>
+            <Dependency release="current">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="36">linux-lts</Dependency>
+        </RuntimeDependencies>
+        <Conflicts>
+            <Package>nvidia-glx-driver</Package>
+            <Package>nvidia-340-glx-driver</Package>
+        </Conflicts>
+    </Package>
+
+    <Package>
+        <Name>nvidia-304-glx-driver-current</Name>
+        <Summary>NVIDIA 304 driver for the linux-current kernel</Summary>
+        <Description>nvidia-304-glx-driver package for the linux-current kernel</Description>
+        <BuildFlags>
+            <Flag>noDebug</Flag>
+        </BuildFlags>
+        <Files>
+            <Path fileType="library" permanent="true">/lib64/modules/*.current</Path>
+        </Files>
+        <Provides>
+            <COMAR script="packageCurrent.py">System.Package</COMAR>
+        </Provides>
+        <RuntimeDependencies>
+            <Dependency release="current">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="6">linux-current</Dependency>
+        </RuntimeDependencies>
+        <Conflicts>
+            <Package>nvidia-glx-driver-current</Package>
+            <Package>nvidia-340-glx-driver-current</Package>
+        </Conflicts>
     </Package>
 
     <Package>
@@ -75,7 +125,7 @@
             <COMAR script="multilib.py">System.Package</COMAR>
         </Provides>
         <RuntimeDependencies>
-            <Dependency>nvidia-304-glx-driver</Dependency>
+            <Dependency>nvidia-304-glx-driver-common</Dependency>
             <Dependency>mesalib-32bit</Dependency>
             <Dependency>glibc-32bit</Dependency>
             <Dependency>libgcc-32bit</Dependency>
@@ -85,6 +135,7 @@
         </RuntimeDependencies>
         <Conflicts>
             <Package>nvidia-glx-driver-32bit</Package>
+            <Package>nvidia-340-glx-driver-32bit</Package>
         </Conflicts>
     </Package>
 
@@ -98,6 +149,14 @@
     </Package>
 
     <History>
+        <Update release="149">
+            <Date>08-05-2017</Date>
+            <Version>304.135</Version>
+            <Comment>Rebuild to enable parallel kernels</Comment>
+            <Name>Ikey Doherty</Name>
+            <Email>ikey@solus-project.com</Email>
+        </Update>
+
         <Update release="148">
             <Date>07-21-2017</Date>
             <Version>304.135</Version>
