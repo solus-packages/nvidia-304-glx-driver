@@ -11,7 +11,7 @@
         <Summary>NVIDIA Binary Driver</Summary>
         <Description>NVIDIA Binary Driver</Description>
         <License>EULA</License>
-        <Archive sha1sum="83d07f0de1363510f2b1c3f647878a0141934dfa" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.135/NVIDIA-Linux-x86_64-304.135.run</Archive>
+        <Archive sha1sum="8e4bd0aee5f5667aa00c38b8ecf520494d0a9d02" type="binary">http://us.download.nvidia.com/XFree86/Linux-x86_64/304.137/NVIDIA-Linux-x86_64-304.137.run</Archive>
         <BuildDependencies>
             <Dependency type="pkgconfig">xorg-server</Dependency>
             <Dependency type="pkgconfig">gtk+-3.0</Dependency>
@@ -80,7 +80,7 @@
         </Provides>
         <RuntimeDependencies>
             <Dependency release="current">nvidia-304-glx-driver-common</Dependency>
-            <Dependency releaseFrom="46">linux-lts</Dependency>
+            <Dependency releaseFrom="47">linux-lts</Dependency>
         </RuntimeDependencies>
         <Conflicts>
             <Package>nvidia-glx-driver</Package>
@@ -103,7 +103,7 @@
         </Provides>
         <RuntimeDependencies>
             <Dependency release="current">nvidia-304-glx-driver-common</Dependency>
-            <Dependency releaseFrom="19">linux-current</Dependency>
+            <Dependency releaseFrom="20">linux-current</Dependency>
         </RuntimeDependencies>
         <Conflicts>
             <Package>nvidia-glx-driver-current</Package>
@@ -149,6 +149,14 @@
     </Package>
 
     <History>
+        <Update release="163">
+            <Date>09-21-2017</Date>
+            <Version>304.137</Version>
+            <Comment>Update to 304.137</Comment>
+            <Name>Peter O'Connor</Name>
+            <Email>peter@solus-project.com</Email>
+        </Update>
+
         <Update release="162">
             <Date>09-11-2017</Date>
             <Version>304.135</Version>
