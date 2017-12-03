@@ -1,47 +1,47 @@
-name        : nvidia-304-glx-driver
-version     : 304.137
-release     : 180
-source      :
+name       : nvidia-304-glx-driver
+version    : 304.137
+release    : 181
+source     :
     - http://us.download.nvidia.com/XFree86/Linux-x86_64/304.137/NVIDIA-Linux-x86_64-304.137.run : eb1f56db3a2bea13e3ccde7b5ae14abe8cd6c6dbe69af4c71c68a623cc96e3e2
-extract     : no
-homepage    : https://nvidia.com
-license     :
+extract    : no
+homepage   : https://nvidia.com
+license    :
     - EULA
-summary     :
+summary    :
     - NVIDIA 304xx Binary Driver (LTS Kernel)
-    - common: Shared assets for the NVIDIA 304xx GLX Driver
-    - current: NVIDIA 304xx Binary Driver (Current Kernel)
-    - modaliases: Files to help with DoFlicky driver detection
-component   :
+    - common : Shared assets for the NVIDIA 304xx GLX Driver
+    - current : NVIDIA 304xx Binary Driver (Current Kernel)
+    - modaliases : Files to help with DoFlicky driver detection
+component  :
     - kernel.drivers
-    - common: xorg.driver
-    - current: kernel.drivers
-    - modaliases: kernel.drivers
-    - 32bit: xorg.driver
-description : |
+    - common : xorg.driver
+    - current : kernel.drivers
+    - modaliases : kernel.drivers
+    - 32bit : xorg.driver
+description: |
     NVIDIA Binary Driver
-rundeps     :
-    - common:
+rundeps    :
+    - common :
         - linux-driver-management
         - libva-vdpau-driver
-    - 32bit:
+    - 32bit :
         - nvidia-304-glx-driver-common
         - libva-vdpau-driver-32bit
-    - main: nvidia-304-glx-driver-common
-    - current: nvidia-304-glx-driver-common
-conflicts   :
-    - common:
+    - main : nvidia-304-glx-driver-common
+    - current : nvidia-304-glx-driver-common
+conflicts  :
+    - common :
         - nvidia-340-glx-driver-common
         - nvidia-glx-driver-common
-patterns    :
-    - common: /*
-    - modaliases: /usr/share/doflicky/modaliases
-    - 32bit: /usr/lib32
-    - main: /lib/modules/*.lts
-    - current: /lib/modules/*.current
-strip       : no
-debug       : no
-builddeps   :
+patterns   :
+    - common : /*
+    - modaliases : /usr/share/doflicky/modaliases
+    - 32bit : /usr/lib32
+    - main : /lib/modules/*.lts
+    - current : /lib/modules/*.current
+strip      : no
+debug      : no
+builddeps  :
     - pkgconfig(xorg-server)
     - pkgconfig(gtk+-2.0)
     - pkgconfig(xv)
@@ -64,6 +64,9 @@ setup      : |
     pushd lts_kernel
     %patch -p1 < $pkgfiles/nv-drm.patch
     popd
+
+    pushd current_kernel
+    %patch -p2 < $pkgfiles/0001-kernel-Port-nv-drm-to-4.14-legacy-DRM-API.patch
 build      : |
     # The older NVIDIA drivers don't like -C so we pushd.
 
@@ -166,7 +169,7 @@ install    : |
     sed -e 's@__UTILS_PATH__@/usr/bin@' -e 's@__PIXMAP_PATH__@/usr/share/pixmaps@' -i $installdir/usr/share/applications/nvidia-settings.desktop
     install -D -m 00644 nvidia-settings.png $installdir/usr/share/pixmaps/nvidia-settings.png
     install -D -m 00644 nvidia.icd $installdir/usr/share/OpenCL/vendors/nvidia.icd
-    
+
     # Blacklist nouveau
     install -D -m 00644 $pkgfiles/nvidia.conf $installdir/usr/lib/modprobe.d/nvidia.conf
 
