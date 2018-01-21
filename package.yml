@@ -1,6 +1,6 @@
 name       : nvidia-304-glx-driver
 version    : 304.137
-release    : 192
+release    : 193
 source     :
     - http://us.download.nvidia.com/XFree86/Linux-x86_64/304.137/NVIDIA-Linux-x86_64-304.137.run : eb1f56db3a2bea13e3ccde7b5ae14abe8cd6c6dbe69af4c71c68a623cc96e3e2
 extract    : no
@@ -97,7 +97,7 @@ install    : |
 
     # New location, keep the old one around for a short while
     install -D -m 00644 modalias $installdir/usr/share/linux-driver-management/modaliases/${package}.modaliases
-    
+
     # Install nvidia driver for xorg
     install -D -m 00755 nvidia_drv.so $installdir/%libdir%/xorg/modules/drivers/nvidia_drv.so
 
