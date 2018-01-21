@@ -1,6 +1,6 @@
 name       : nvidia-304-glx-driver
 version    : 304.137
-release    : 191
+release    : 192
 source     :
     - http://us.download.nvidia.com/XFree86/Linux-x86_64/304.137/NVIDIA-Linux-x86_64-304.137.run : eb1f56db3a2bea13e3ccde7b5ae14abe8cd6c6dbe69af4c71c68a623cc96e3e2
 extract    : no
@@ -24,9 +24,11 @@ rundeps    :
     - common :
         - linux-driver-management
         - libva-vdpau-driver
+        - libglvnd
     - 32bit :
         - nvidia-304-glx-driver-common
         - libva-vdpau-driver-32bit
+        - libglvnd-32bit
     - main : nvidia-304-glx-driver-common
     - current : nvidia-304-glx-driver-common
 conflicts  :
@@ -35,7 +37,9 @@ conflicts  :
         - nvidia-glx-driver-common
 patterns   :
     - common : /*
-    - modaliases : /usr/share/doflicky/modaliases
+    - modaliases :
+        - /usr/share/doflicky/modaliases
+        - /usr/share/linux-driver-management/modaliases
     - 32bit : /usr/lib32
     - main : /lib/modules/*.lts
     - current : /lib/modules/*.current
@@ -87,10 +91,13 @@ install    : |
     install -D -d -m 00755 $installdir/lib/modules/%kernel_version_current%/kernel/drivers/video
     install -m 00644 current_kernel/*.ko $installdir/lib/modules/%kernel_version_current%/kernel/drivers/video/.
 
-    # Prepare doflicky modaliases from the LTS kernel
+    # Prepare modaliases from the LTS kernel
     sh -e $pkgfiles/nvidia_supported nvidia ${package} README.txt lts_kernel/nvidia.ko > modalias
     install -D -m 00644 modalias $installdir/usr/share/doflicky/modaliases/${package}.modaliases
 
+    # New location, keep the old one around for a short while
+    install -D -m 00644 modalias $installdir/usr/share/linux-driver-management/modaliases/${package}.modaliases
+    
     # Install nvidia driver for xorg
     install -D -m 00755 nvidia_drv.so $installdir/%libdir%/xorg/modules/drivers/nvidia_drv.so
 
@@ -127,34 +134,13 @@ install    : |
     redo_libs $installdir/usr/lib64/lib*.so.%version%
     redo_libs $installdir/usr/lib32/lib*.so.%version%
 
+    # Nuke stuff that isnt allowed to persist.
+    rm -v $installdir/%libdir%/libglx.so*
+
     # Now move the GL providers out into glx-provider tree
-    install -d -D -m 00755 $installdir/usr/lib{32,64}/glx-provider/nvidia
-    mv -v $installdir/%libdir%/lib{GL,glx}.so* $installdir/%libdir%/glx-provider/nvidia/.
-    mv -v $installdir/usr/lib32/libGL.so* $installdir/usr/lib32/glx-provider/nvidia/.
-
-    # We provide some compatibility links here purely for LDM mechanics
-    ln -sv /usr/lib32/glx-provider/default/libEGL.so.1.0.0 $installdir/usr/lib32/glx-provider/nvidia/libEGL.so
-    ln -sv /usr/lib32/glx-provider/default/libEGL.so.1.0.0 $installdir/usr/lib32/glx-provider/nvidia/libEGL.so.1
-    ln -sv /usr/lib32/glx-provider/default/libEGL.so.1.0.0 $installdir/usr/lib32/glx-provider/nvidia/libEGL.so.1.0.0
-    ln -sv /usr/lib64/glx-provider/default/libEGL.so.1.0.0 $installdir/usr/lib64/glx-provider/nvidia/libEGL.so
-    ln -sv /usr/lib64/glx-provider/default/libEGL.so.1.0.0 $installdir/usr/lib64/glx-provider/nvidia/libEGL.so.1
-    ln -sv /usr/lib64/glx-provider/default/libEGL.so.1.0.0 $installdir/usr/lib64/glx-provider/nvidia/libEGL.so.1.0.0
-
-    # libGLESv1_CM
-    ln -sv /usr/lib32/glx-provider/default/libGLESv1_CM.so.1.1.0 $installdir/usr/lib32/glx-provider/nvidia/libGLESv1_CM.so
-    ln -sv /usr/lib32/glx-provider/default/libGLESv1_CM.so.1.1.0 $installdir/usr/lib32/glx-provider/nvidia/libGLESv1_CM.so.1
-    ln -sv /usr/lib32/glx-provider/default/libGLESv1_CM.so.1.1.0 $installdir/usr/lib32/glx-provider/nvidia/libGLESv1_CM.so.1.1.0
-    ln -sv /usr/lib64/glx-provider/default/libGLESv1_CM.so.1.1.0 $installdir/usr/lib64/glx-provider/nvidia/libGLESv1_CM.so
-    ln -sv /usr/lib64/glx-provider/default/libGLESv1_CM.so.1.1.0 $installdir/usr/lib64/glx-provider/nvidia/libGLESv1_CM.so.1
-    ln -sv /usr/lib64/glx-provider/default/libGLESv1_CM.so.1.1.0 $installdir/usr/lib64/glx-provider/nvidia/libGLESv1_CM.so.1.1.0
-
-    # libGLESv2
-    ln -sv /usr/lib32/glx-provider/default/libGLESv2.so.2.0.0 $installdir/usr/lib32/glx-provider/nvidia/libGLESv2.so
-    ln -sv /usr/lib32/glx-provider/default/libGLESv2.so.2.0.0 $installdir/usr/lib32/glx-provider/nvidia/libGLESv2.so.2
-    ln -sv /usr/lib32/glx-provider/default/libGLESv2.so.2.0.0 $installdir/usr/lib32/glx-provider/nvidia/libGLESv2.so.2.0.0
-    ln -sv /usr/lib64/glx-provider/default/libGLESv2.so.2.0.0 $installdir/usr/lib64/glx-provider/nvidia/libGLESv2.so
-    ln -sv /usr/lib64/glx-provider/default/libGLESv2.so.2.0.0 $installdir/usr/lib64/glx-provider/nvidia/libGLESv2.so.2
-    ln -sv /usr/lib64/glx-provider/default/libGLESv2.so.2.0.0 $installdir/usr/lib64/glx-provider/nvidia/libGLESv2.so.2.0.0
+    install -d -D -m 00755 $installdir/usr/lib{32,64}/nvidia
+    mv -v $installdir/%libdir%/libGL.so* $installdir/%libdir%/nvidia/.
+    mv -v $installdir/usr/lib32/libGL.so* $installdir/usr/lib32/nvidia/.
 
     # Move vdpau into the final position
     install -D -d -m 00755 $installdir/usr/lib{32,64}/vdpau
@@ -175,3 +161,11 @@ install    : |
 
     # Additional files
     install -D -m 00644 $pkgfiles/71-nvidia.rules $installdir/%libdir%/udev/rules.d/71-nvidia.rules
+
+    # Make sure our glx is found, LDM will handle the main config file
+    install -D -m 00644 $pkgfiles/xorg.conf $installdir/usr/share/X11/xorg.conf.d/10-nvidia.conf
+    install -D -m 00644 libglx.so.${version} $installdir/%libdir%/nvidia/modules/libglx.so
+    ln -sv libglx.so $installdir/%libdir%/nvidia/modules/libglx.so.1
+
+    # Make our non glvnd libraries usable by masking glvnd libGL
+    install -D -m 00644 $pkgfiles/ld.so.conf $installdir/usr/share/ld.so.conf.d/00-nvidia.conf
