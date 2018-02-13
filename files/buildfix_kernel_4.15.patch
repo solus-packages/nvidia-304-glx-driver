@@ -1,0 +1,96 @@
+From 4581c6df79382d2fa0a40260fd331d5673635e25 Mon Sep 17 00:00:00 2001
+From: Seth Forshee <seth.forshee@canonical.com>
+Date: Thu, 14 Dec 2017 08:24:14 -0600
+Subject: [PATCH] Build fixes for Linux 4.15
+
+---
+ Makefile.kbuild |  3 ++-
+ conftest.sh     | 12 ++++++++++++
+ nv.c            | 13 ++++++++++++-
+ 3 files changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.kbuild b/Makefile.kbuild
+index a5eac0dd392b..1efbb0ae3d62 100644
+--- a/Makefile.kbuild
++++ b/Makefile.kbuild
+@@ -194,7 +194,8 @@ COMPILE_TESTS = \
+ 	cpuhp_setup_state \
+ 	vm_fault_present \
+ 	vm_fault_has_address \
+-	drm_driver_unload_has_int_return_type
++	drm_driver_unload_has_int_return_type \
++	use_timer_setup
+ #
+ # Miscellaneous NVIDIA kernel module build support targets. They are needed
+ # to satisfy KBUILD requirements and to support NVIDIA specifics.
+diff --git a/conftest.sh b/conftest.sh
+index 6e3393fe4805..9cfb0f4c7c9b 100755
+--- a/conftest.sh
++++ b/conftest.sh
+@@ -2106,6 +2106,18 @@ compile_test() {
+ 
+             compile_check_conftest "$CODE" "NV_DRM_DRIVER_UNLOAD_HAS_INT_RETURN_TYPE" "" "types"
+         ;;
++        use_timer_setup)
++            #
++            # Determine if timer_setup() must be used instead of init_timer().
++            #
++            CODE="
++            #include <linux/timer.h>
++                void conftest_use_timer_setup() {
++                timer_setup();
++            }"
++
++            compile_check_conftest "$CODE" "NV_USE_TIMER_SETUP" "" "functions"
++        ;;
+     esac
+ }
+ 
+diff --git a/nv.c b/nv.c
+index 7c9bb1f59980..01d6d63d0274 100644
+--- a/nv.c
++++ b/nv.c
+@@ -301,7 +301,6 @@ irqreturn_t   nv_kern_isr(int, void *, struct pt_regs *);
+ #else
+ irqreturn_t   nv_kern_isr(int, void *);
+ #endif
+-void          nv_kern_rc_timer(unsigned long);
+ #if defined(NV_PM_SUPPORT_OLD_STYLE_APM)
+ static int    nv_kern_apm_event(struct pm_dev *, pm_request_t, void *);
+ #endif
+@@ -2075,10 +2074,18 @@ void nv_kern_isr_bh(
+ }
+ 
+ void nv_kern_rc_timer(
++#ifdef NV_USE_TIMER_SETUP
++    struct timer_list *t
++#else
+     unsigned long data
++#endif
+ )
+ {
++#ifdef NV_USE_TIMER_SETUP
++    nv_linux_state_t *nvl = from_timer(nvl, t, rc_timer);
++#else
+     nv_linux_state_t *nvl = (nv_linux_state_t *) data;
++#endif
+     nv_state_t *nv = NV_STATE_PTR(nvl);
+ 
+     NV_CHECK_PCI_CONFIG_SPACE(nvl->timer_sp, nv, TRUE, TRUE, FALSE);
+@@ -3029,9 +3036,13 @@ int NV_API_CALL nv_start_rc_timer(
+         return -1;
+ 
+     nv_printf(NV_DBG_INFO, "NVRM: initializing rc timer\n");
++#ifdef NV_USE_TIMER_SETUP
++    timer_setup(&nvl->rc_timer, nv_kern_rc_timer, 0);
++#else
+     init_timer(&nvl->rc_timer);
+     nvl->rc_timer.function = nv_kern_rc_timer;
+     nvl->rc_timer.data = (unsigned long) nv;
++#endif
+     nv->rc_timer_enabled = 1;
+     mod_timer(&nvl->rc_timer, jiffies + HZ); /* set our timeout for 1 second */
+     nv_printf(NV_DBG_INFO, "NVRM: rc timer initialized\n");
+-- 
+2.14.1
+
