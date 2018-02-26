@@ -20,7 +20,7 @@
 </Description>
         <PartOf>kernel.drivers</PartOf>
         <RuntimeDependencies>
-            <Dependency releaseFrom="202">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="203">nvidia-304-glx-driver-common</Dependency>
         </RuntimeDependencies>
         <Files>
             <Path fileType="data">/lib/modules/*.lts</Path>
@@ -33,7 +33,7 @@
 </Description>
         <PartOf>xorg.driver</PartOf>
         <RuntimeDependencies>
-            <Dependency releaseFrom="202">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="203">nvidia-304-glx-driver-common</Dependency>
         </RuntimeDependencies>
         <Files>
             <Path fileType="library">/usr/lib32</Path>
@@ -60,7 +60,7 @@
 </Description>
         <PartOf>kernel.drivers</PartOf>
         <RuntimeDependencies>
-            <Dependency releaseFrom="202">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="203">nvidia-304-glx-driver-common</Dependency>
         </RuntimeDependencies>
         <Files>
             <Path fileType="data">/lib/modules/*.current</Path>
@@ -78,8 +78,8 @@
         </Files>
     </Package>
     <History>
-        <Update release="202">
-            <Date>2018-02-24</Date>
+        <Update release="203">
+            <Date>2018-02-26</Date>
             <Version>304.137</Version>
             <Comment>Packaging update</Comment>
             <Name>Ikey Doherty</Name>
