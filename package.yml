@@ -1,6 +1,6 @@
 name       : nvidia-304-glx-driver
 version    : 304.137
-release    : 212
+release    : 213
 source     :
     - http://us.download.nvidia.com/XFree86/Linux-x86_64/304.137/NVIDIA-Linux-x86_64-304.137.run : eb1f56db3a2bea13e3ccde7b5ae14abe8cd6c6dbe69af4c71c68a623cc96e3e2
 extract    : no
@@ -11,7 +11,7 @@ summary    :
     - NVIDIA 304xx Binary Driver (LTS Kernel)
     - common : Shared assets for the NVIDIA 304xx GLX Driver
     - current : NVIDIA 304xx Binary Driver (Current Kernel)
-    - modaliases : Files to help with DoFlicky driver detection
+    - modaliases : These files are used by the Software Center for hardware detection
 component  :
     - kernel.drivers
     - common : xorg.driver
