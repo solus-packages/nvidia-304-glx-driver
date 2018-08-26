@@ -20,7 +20,7 @@
 </Description>
         <PartOf>kernel.drivers</PartOf>
         <RuntimeDependencies>
-            <Dependency releaseFrom="234">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="235">nvidia-304-glx-driver-common</Dependency>
         </RuntimeDependencies>
         <Files>
             <Path fileType="data">/lib/modules/4.9.124-106.lts/kernel/drivers/video/nvidia.ko</Path>
@@ -33,7 +33,7 @@
 </Description>
         <PartOf>xorg.driver</PartOf>
         <RuntimeDependencies>
-            <Dependency releaseFrom="234">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="235">nvidia-304-glx-driver-common</Dependency>
         </RuntimeDependencies>
         <Files>
             <Path fileType="library">/usr/lib32/libcuda.so</Path>
@@ -135,10 +135,10 @@
 </Description>
         <PartOf>kernel.drivers</PartOf>
         <RuntimeDependencies>
-            <Dependency releaseFrom="234">nvidia-304-glx-driver-common</Dependency>
+            <Dependency releaseFrom="235">nvidia-304-glx-driver-common</Dependency>
         </RuntimeDependencies>
         <Files>
-            <Path fileType="data">/lib/modules/4.18.5-88.current/kernel/drivers/video/nvidia.ko</Path>
+            <Path fileType="data">/lib/modules/4.18.5-89.current/kernel/drivers/video/nvidia.ko</Path>
         </Files>
     </Package>
     <Package>
@@ -153,8 +153,8 @@
         </Files>
     </Package>
     <History>
-        <Update release="234">
-            <Date>2018-08-25</Date>
+        <Update release="235">
+            <Date>2018-08-26</Date>
             <Version>304.137</Version>
             <Comment>Packaging update</Comment>
             <Name>Bryan T. Meyers</Name>
