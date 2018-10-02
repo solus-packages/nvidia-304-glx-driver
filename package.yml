@@ -1,6 +1,6 @@
 name       : nvidia-304-glx-driver
 version    : 304.137
-release    : 238
+release    : 239
 source     :
     - http://us.download.nvidia.com/XFree86/Linux-x86_64/304.137/NVIDIA-Linux-x86_64-304.137.run : eb1f56db3a2bea13e3ccde7b5ae14abe8cd6c6dbe69af4c71c68a623cc96e3e2
 extract    : no
